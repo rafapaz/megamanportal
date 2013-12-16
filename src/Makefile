@@ -8,10 +8,10 @@ INCLUDE=-I$(IDIR) -I/usr/include/allegro5
 #OBJS=$(ODIR)/megaman.o
 OUT=megaman
 
-_OBJS = player.o platform.o scenarium.o megaman.o 
+_OBJS = commom.o moveableObject.o bullet.o player.o platform.o scenarium.o megaman.o 
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
-_DEPS = commom.h player.h platform.h scenarium.h megaman.h 
+_DEPS = commom.h moveableObject.h bullet.h player.h platform.h scenarium.h megaman.h 
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 $(ODIR)/%.o: %.cpp $(DEPS)

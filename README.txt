@@ -10,4 +10,9 @@ Go to the link and follow the steps to install Allegro: <http://wiki.allegro.cc/
 
 The maps can be created in a easy way. Just open the files L1.txt, L2.txt, etc... and follow the same pattern. More explanations soon...
 
+Controls:
+ARROWS: Walk
+SPACE: Jump
+X: Shot
+
 Enjoy!

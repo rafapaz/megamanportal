@@ -57,7 +57,6 @@ void init()
 
     title = getTitle();
     printf("%s \n", title);
-    free(title);
 
     // Init Allegro
     if (!al_init())
@@ -120,8 +119,6 @@ void destroy()
     al_destroy_timer(timer);
     al_destroy_timer(playerTimer);
 
-    player->~Player();
-
     printf("Game finished!\n");
 }
 
@@ -177,6 +174,9 @@ ALLEGRO_KEYBOARD_STATE keyState;
             case ALLEGRO_KEY_SPACE:
                 player->startMoveY(UP);
             break;
+            case ALLEGRO_KEY_X:
+                player->Shot();
+            break;
             }
 
         }
@@ -197,7 +197,7 @@ ALLEGRO_KEYBOARD_STATE keyState;
             
             player->moveY();
 
-            map->moveCamera();
+            //map->moveCamera();
 
             if (!player->isAlive()) done = true; 
             redraw = true;

@@ -3,6 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include <stdio.h>
+#include <math.h>
 #include "commom.h"
 #include "scenarium.h"
 
@@ -48,7 +49,7 @@ void Scenarium::cleanLevel()
 int i;
 
     for (i=0; i < plats.size();i++) {
-        plats[i]->~Platform();
+        delete plats[i];
     }
     plats.clear();
 }
@@ -105,15 +106,13 @@ std::string line;
     if (openfile.is_open()) {
         
         std::getline(openfile, line);
-        mapSizeX = line.length()/2;
+        mapSizeX = ceil(((float)line.length())/2);
 
         openfile.seekg(0, std::ios::beg);
         j=k=0;
         while (!openfile.eof()) {
             openfile >> map[j++][k]; 
-            //printf("%d,%d = %d ",j-1,k, map[j-1][k]);
             if (j >= mapSizeX) { j=0; k++; }
-            //if (k >= mapSizeY) break;
         }
         mapSizeY = k;
 
@@ -122,6 +121,16 @@ std::string line;
         exit(1);
     }
     openfile.close();
+
+    /*
+    printf("Printing map: \n");
+    for (i=0;i<mapSizeY;i++) {
+        for (j=0;j<mapSizeX;j++) {
+            printf("%d ", map[j][i]);
+        }
+        printf("\n");
+    }
+    */
 }
 
 bool Scenarium::nextLevel()
