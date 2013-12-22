@@ -13,3 +13,7 @@ struct Limits {
     int y1;
 };
 
+struct Portal {
+    Limits lim;
+    int side;
+};

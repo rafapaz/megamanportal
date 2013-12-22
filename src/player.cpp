@@ -29,15 +29,17 @@ std::stringstream img_str;
     img_jump_shot[RIGHT] = 14;
     img_jump_shot[LEFT] = 15;
 
-    portal[IN].x0 = 0;
-    portal[IN].x1 = 0;
-    portal[IN].y0 = 0;
-    portal[IN].y1 = 0;
+    portal[IN].lim.x0 = 0;
+    portal[IN].lim.x1 = 0;
+    portal[IN].lim.y0 = 0;
+    portal[IN].lim.y1 = 0;
+    portal[IN].side = LEFT;
 
-    portal[OUT].x0 = 0;
-    portal[OUT].x1 = 0;
-    portal[OUT].y0 = 0;
-    portal[OUT].y1 = 0;
+    portal[OUT].lim.x0 = 0;
+    portal[OUT].lim.x1 = 0;
+    portal[OUT].lim.y0 = 0;
+    portal[OUT].lim.y1 = 0;
+    portal[OUT].side = RIGHT;
 
     spriteId = img_ground[RIGHT];
     speedX = MAX_SPEED_X;
@@ -89,18 +91,16 @@ int m;
         chSprite = false;
     }
     
-    /*
     for (m=IN; m<=OUT;m++) {
-        if (posX + mwidth > portal[m].x0 && posX < portal[m].x1 && 
-                posY + mheight > portal[m].y0 && posY < portal[m].y1) {
+        if (posX + mwidth > portal[m].lim.x0 && posX < portal[m].lim.x1 && 
+                posY + mheight > portal[m].lim.y0 && posY < portal[m].lim.y1) {
             inPortal = true;
-            posX = portal[!m].x0;
-            posY = portal[!m].y1 - mheight;
+            posX = (portal[!m].side==RIGHT) ? portal[!m].lim.x0 + 5 : portal[!m].lim.x0 - mwidth - 5;
+            posY = portal[!m].lim.y1 - mheight;
         } else {
             inPortal = false;
         }
     }
-    */
 }
 
 void Player::moveY()
@@ -163,8 +163,8 @@ void Player::Update()
     screenWidthRef = posX + (mwidth/2) + (SCREENWIDTH/2);
     moveableObject::Update();
 
-    al_draw_filled_rectangle(portal[IN].x0,portal[IN].y0,portal[IN].x1,portal[IN].y1, al_map_rgb(0,0, 255));
-    al_draw_filled_rectangle(portal[OUT].x0,portal[OUT].y0,portal[OUT].x1,portal[OUT].y1, al_map_rgb(128,0, 128));
+    al_draw_filled_rectangle(portal[IN].lim.x0,portal[IN].lim.y0,portal[IN].lim.x1,portal[IN].lim.y1, al_map_rgb(0,0, 255));
+    al_draw_filled_rectangle(portal[OUT].lim.x0,portal[OUT].lim.y0,portal[OUT].lim.x1,portal[OUT].lim.y1, al_map_rgb(128,0, 128));
 }
 
 void Player::startLevel()
@@ -187,10 +187,11 @@ int px;
 
 void Player::openPortal()
 {
-    portal[mode].x0 = bullet->getPosX();
-    portal[mode].x1 = bullet->getPosX() + 10;
-    portal[mode].y0 = bullet->getPosY() - PORTAL_HEIGHT/2;
-    portal[mode].y1 = bullet->getPosY() + PORTAL_HEIGHT/2;
+    portal[mode].lim.x0 = bullet->getPosX();
+    portal[mode].lim.x1 = bullet->getPosX() + 10;
+    portal[mode].lim.y0 = bullet->getPosY() - PORTAL_HEIGHT/2;
+    portal[mode].lim.y1 = bullet->getPosY() + PORTAL_HEIGHT/2;
+    portal[mode].side = !dirX;
 
     mode = !mode;
 }

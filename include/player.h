@@ -25,7 +25,7 @@ class Player : public moveableObject {
         bool ground;
         bool inPortal;
         Bullet *bullet;
-        Limits portal[2];
+        Portal portal[2];
     public:
         Player();
         ~Player();
