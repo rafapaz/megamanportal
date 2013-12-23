@@ -19,7 +19,7 @@ std::stringstream img_str;
     posY = y0;
     dirX = d;
     speedX = (dirX == RIGHT) ? MAX_SHOT_SPEED : -MAX_SHOT_SPEED;
-    screenWidthRef = x0+20 + SCREENWIDTH;
+    screenWidthRef = SCREENWIDTH; //for scroll game add x0+20 to SCREENWIDTH
 
     img_prefix = "bullet";
 

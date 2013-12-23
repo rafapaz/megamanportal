@@ -6,6 +6,7 @@
 #define MAX_SPEED_X 7
 #define MAX_SPEED_Y 20
 #define SPRITE_INTERVAL 3
+#define PORTAL_WIDTH    5
 #define PORTAL_HEIGHT   100
 
 enum { IN, OUT };

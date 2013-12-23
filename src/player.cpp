@@ -95,7 +95,7 @@ int m;
         if (posX + mwidth > portal[m].lim.x0 && posX < portal[m].lim.x1 && 
                 posY + mheight > portal[m].lim.y0 && posY < portal[m].lim.y1) {
             inPortal = true;
-            posX = (portal[!m].side==RIGHT) ? portal[!m].lim.x0 + 5 : portal[!m].lim.x0 - mwidth - 5;
+            posX = (portal[!m].side==RIGHT) ? portal[!m].lim.x0 + PORTAL_WIDTH*3 : portal[!m].lim.x0 - mwidth - (PORTAL_WIDTH*3);
             posY = portal[!m].lim.y1 - mheight;
         } else {
             inPortal = false;
@@ -154,7 +154,8 @@ void Player::Update()
     if (bullet != NULL) {
         bullet->Update();
         if (!bullet->isAlive()) {
-            openPortal();
+            if (bullet->getPosX() < SCREENWIDTH && bullet->getPosX() > 0)
+                openPortal();
             delete bullet;
             bullet = NULL;
         }
@@ -164,7 +165,7 @@ void Player::Update()
     moveableObject::Update();
 
     al_draw_filled_rectangle(portal[IN].lim.x0,portal[IN].lim.y0,portal[IN].lim.x1,portal[IN].lim.y1, al_map_rgb(0,0, 255));
-    al_draw_filled_rectangle(portal[OUT].lim.x0,portal[OUT].lim.y0,portal[OUT].lim.x1,portal[OUT].lim.y1, al_map_rgb(128,0, 128));
+    al_draw_filled_rectangle(portal[OUT].lim.x0,portal[OUT].lim.y0,portal[OUT].lim.x1,portal[OUT].lim.y1, al_map_rgb(0,0, 255));
 }
 
 void Player::startLevel()
@@ -187,8 +188,16 @@ int px;
 
 void Player::openPortal()
 {
-    portal[mode].lim.x0 = bullet->getPosX();
-    portal[mode].lim.x1 = bullet->getPosX() + 10;
+int i;
+
+    if (dirX==RIGHT) {
+        portal[mode].lim.x0 = bullet->getPosX() + bullet->getWidth() - PORTAL_WIDTH;
+        portal[mode].lim.x1 = bullet->getPosX() + bullet->getWidth();
+    } else {
+        portal[mode].lim.x0 = bullet->getPosX();
+        portal[mode].lim.x1 = bullet->getPosX() + PORTAL_WIDTH;
+    }
+
     portal[mode].lim.y0 = bullet->getPosY() - PORTAL_HEIGHT/2;
     portal[mode].lim.y1 = bullet->getPosY() + PORTAL_HEIGHT/2;
     portal[mode].side = !dirX;
